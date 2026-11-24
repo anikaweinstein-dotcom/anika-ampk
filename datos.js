@@ -6,7 +6,7 @@ window.DATOS = {
   titulo: "Contenido para redes",
   resumen: "Videos auténticos para TikTok e Instagram con mi experiencia real usando AMPK.",
   actualizado: "2026-11-23",
-  colores: { marca: "#035CB8", acento: "#D4383D" },
+  colores: { marca: "#035CB8", acento: "#FFB4B6" },
   fuente: "Montserrat",
   contacto: "",
 
