@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Influencers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="estilo.css">
+<link rel="stylesheet" href="crm.css">
+<script src="datos.js"></script>
+</head>
+<body class="crm-body">
+<nav class="topnav">
+  <div class="topnav-in">
+    <span class="topnav-brand" id="nav-marca"></span>
+    <a href="index.html">Avances</a>
+    <a href="influencers.html" class="on" aria-current="page">Influencers</a>
+  </div>
+</nav>
+
+<main class="crm">
+  <header class="crm-head">
+    <div>
+      <h1>CRM de influencers</h1>
+      <p class="crm-sub" id="crm-sub"></p>
+    </div>
+  </header>
+
+  <section class="kpis" id="kpis" aria-label="Resumen"></section>
+
+  <section class="funnel-wrap">
+    <div class="card funnel-card">
+      <h3>Embudo</h3>
+      <div class="funnel" id="funnel"></div>
+    </div>
+    <div class="card spend-card">
+      <div class="spend-top">
+        <h3>Gasto en influencers</h3>
+        <div class="seg" id="spend-seg" role="tablist">
+          <button data-v="mes" class="on">Por mes</button>
+          <button data-v="semana">Por semana</button>
+        </div>
+      </div>
+      <div class="spend" id="spend"></div>
+      <div class="spend-split" id="spend-split"></div>
+    </div>
+  </section>
+
+  <section class="card marcas-card" id="sec-marcas">
+    <h3>Marcas con las que se trabaja</h3>
+    <div class="marcas" id="marcas"></div>
+  </section>
+
+  <section class="crm-main">
+    <div class="list-col card">
+      <div class="list-tools">
+        <label class="search"><span aria-hidden="true">⌕</span>
+          <input id="q" type="search" placeholder="Buscar @usuario, nombre, ciudad…" autocomplete="off">
+        </label>
+        <select id="orden" aria-label="Ordenar">
+          <option value="reciente">Más recientes</option>
+          <option value="seguidores">Más seguidores</option>
+          <option value="gasto">Más gasto</option>
+        </select>
+      </div>
+      <div class="chips" id="chips-marca"></div>
+      <div class="chips" id="chips-estado"></div>
+      <ul class="ilist" id="ilist"></ul>
+    </div>
+    <aside class="detail card" id="detail" aria-live="polite"></aside>
+  </section>
+</main>
+
+<footer class="crm-foot" id="pie"></footer>
+<script src="crm.js"></script>
+</body>
+</html>
