@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Catálogo para influencers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap">
+<link rel="stylesheet" href="estilo.css">
+<link rel="stylesheet" href="crm.css">
+<script src="datos.js"></script>
+<script src="catalogo-datos.js"></script>
+<style>
+  :root { --rojo: #d4383d; --verde: #1d7340; --verde-soft: #dcf3e4; }
+  body { font-family: "Montserrat", system-ui, sans-serif; }
+  .cat-hero { background: var(--marca); color: #fff; }
+  .cat-hero .in { max-width: 1100px; margin: 0 auto; padding: 34px 22px 30px; }
+  .cat-hero .eb { font-size: 12px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: #ffb4b6; margin: 0 0 10px; }
+  .cat-hero h1 { margin: 0; font-size: clamp(30px, 5.5vw, 52px); font-weight: 900; line-height: 1.02; letter-spacing: -.01em; text-wrap: balance; }
+  .cat-hero h1 b { background: #fff; color: var(--marca); padding: 0 .16em; border-radius: 6px; white-space: nowrap; }
+  .cat-hero p { margin: 14px 0 0; font-size: 17px; max-width: 60ch; opacity: .92; }
+  .steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-top: 22px; }
+  .step { background: rgba(255,255,255,.12); border-radius: 12px; padding: 12px 14px; font-size: 14px; }
+  .step b { display: block; font-size: 22px; font-weight: 900; line-height: 1; margin-bottom: 4px; color: #ffb4b6; }
+
+  .cat { max-width: 1100px; margin: 0 auto; padding: 24px 22px 10px; display: grid; gap: 26px; }
+  .sec-t { margin: 0 0 12px; font-size: 13px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--suave); }
+  .combo { background: var(--tarjeta); border: 2px solid var(--marca); border-radius: 16px; padding: 16px 18px; display: grid; grid-template-columns: auto 1fr auto; gap: 16px; align-items: center; }
+  .combo .ph { display: flex; }
+  .combo .ph img { width: 70px; height: 70px; object-fit: contain; background: #fff; border-radius: 12px; border: 1px solid var(--linea); margin-left: -12px; }
+  .combo .ph img:first-child { margin-left: 0; }
+  .combo h3 { margin: 0; font-size: 18px; font-weight: 800; }
+  .combo p { margin: 2px 0 0; color: var(--suave); font-size: 14px; }
+  .combo .tot { text-align: right; font-weight: 900; font-size: 22px; color: var(--marca); font-variant-numeric: tabular-nums; }
+  .combo .tot small { display: block; font-size: 12px; font-weight: 600; color: var(--verde); }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
+  .p { background: var(--tarjeta); border: 1px solid var(--linea); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; break-inside: avoid; position: relative; }
+  .p.sel { border-color: var(--marca); box-shadow: 0 0 0 2px var(--marca) inset; }
+  .p-img { background: #fff; height: 170px; display: grid; place-items: center; padding: 10px; border-bottom: 1px solid var(--linea); }
+  .p-img img { max-height: 150px; max-width: 100%; object-fit: contain; }
+  .p-body { padding: 14px 16px 16px; display: grid; gap: 8px; flex: 1; align-content: start; }
+  .p-top { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+  .p-name { font-weight: 800; font-size: 17px; line-height: 1.15; }
+  .p-price { font-weight: 900; font-size: 18px; color: var(--marca); white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .p-pres { font-size: 13px; color: var(--suave); margin-top: -4px; }
+  .p-q { font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--rojo); margin-top: 4px; }
+  .p ul { margin: 0; padding-left: 18px; font-size: 13.5px; display: grid; gap: 4px; }
+  .fav { position: absolute; top: 10px; left: 10px; background: var(--rojo); color: #fff; font-size: 11px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; padding: 4px 9px; border-radius: 99px; }
+  .fav.pro { background: var(--tinta); }
+  .p-cat { display: none; font-size: 8px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--suave); }
+  .pick { margin-top: auto; padding-top: 6px; }
+  .pick button { width: 100%; font: inherit; font-weight: 800; font-size: 14px; border: 2px solid var(--marca); background: #fff; color: var(--marca); border-radius: 10px; padding: 9px; cursor: pointer; }
+  .p.sel .pick button { background: var(--marca); color: #fff; }
+  .pick button:focus-visible { outline: 3px solid #ffb4b6; outline-offset: 2px; }
+
+  .reglas { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .regla { background: var(--tarjeta); border: 1px solid var(--linea); border-radius: 16px; padding: 16px 18px; }
+  .regla h3 { margin: 0 0 8px; font-size: 16px; font-weight: 800; }
+  .regla ul { margin: 0; padding-left: 18px; font-size: 14px; display: grid; gap: 4px; }
+  .regla.si h3 { color: var(--verde); } .regla.no h3 { color: var(--rojo); }
+  .nota { font-size: 12px; color: var(--suave); }
+
+  /* Barra de total (solo web) */
+  .bar-tot { position: sticky; bottom: 0; z-index: 5; background: var(--tinta); color: #fff; }
+  .bar-tot .in { max-width: 1100px; margin: 0 auto; padding: 12px 22px; display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+  .bar-tot .t { font-weight: 800; font-variant-numeric: tabular-nums; }
+  .bar-tot .meter { flex: 1; min-width: 140px; height: 10px; background: rgba(255,255,255,.18); border-radius: 99px; overflow: hidden; }
+  .bar-tot .meter i { display: block; height: 100%; background: #5fd08f; border-radius: 99px; transition: width .2s; }
+  .bar-tot.over .meter i { background: #ff6a5f; }
+  .bar-tot .left { font-size: 13px; opacity: .85; }
+  .bar-tot button { font: inherit; font-size: 13px; font-weight: 700; background: none; border: 1px solid rgba(255,255,255,.4); color: #fff; border-radius: 8px; padding: 6px 10px; cursor: pointer; }
+  .pdf-link { display: inline-block; margin-top: 16px; background: #fff; color: var(--marca); font-weight: 800; text-decoration: none; padding: 10px 16px; border-radius: 10px; }
+
+  @media (max-width: 760px) { .steps { grid-template-columns: 1fr 1fr; } .reglas { grid-template-columns: 1fr; } .combo { grid-template-columns: 1fr; } .combo .tot { text-align: left; } }
+
+  /* ===== Versión PDF ===== */
+  @page { size: A4; margin: 12mm; }
+  @media print {
+    body { background: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .topnav, .pick, .bar-tot, .pdf-link, .no-print { display: none !important; }
+    .cat-hero .in { padding: 22px 18px; }
+    .cat { padding: 14px 0 0; gap: 16px; }
+    #bloques { display: block !important; }
+    .cat-block > .sec-t { display: none; }
+    .p-cat { display: block !important; }
+    .grid { display: block; font-size: 0; }
+    .grid > .p { display: inline-block; vertical-align: top; width: 32.3%; margin: 0 1.5% 8px 0; font-size: 14px; break-inside: avoid; page-break-inside: avoid; }
+    .grid > .p:nth-child(3n) { margin-right: 0; }
+    .p { border-radius: 10px; }
+    .bar-tot { position: static; }
+    .sec-t { break-after: avoid; page-break-after: avoid; }
+    .cat-hero { break-inside: avoid; }
+    .reglas { display: flex; gap: 8px; } .regla { flex: 1; padding: 10px 12px; } .regla ul { font-size: 10px; } .regla h3 { font-size: 13px; }
+    .p-img { height: 100px; padding: 6px; } .p-img img { max-height: 88px; }
+    .p-body { padding: 8px 10px 10px; gap: 4px; }
+    .p-name { font-size: 12.5px; } .p-price { font-size: 13px; } .p-pres { font-size: 10px; }
+    .p-q { font-size: 8.5px; margin-top: 2px; }
+    .p ul { font-size: 9.5px; gap: 2px; padding-left: 13px; }
+    .fav { font-size: 8px; padding: 2px 6px; top: 6px; left: 6px; }
+    .cat-block { break-before: auto; }
+    .sec-t { margin-bottom: 6px; }
+    .reglas { break-inside: avoid; }
+  }
+</style>
+</head>
+<body class="crm-body">
+<nav class="topnav">
+  <div class="topnav-in">
+    <span class="topnav-brand" id="nav-marca"></span>
+    <a href="index.html">Avances</a>
+    <a href="influencers.html">Influencers</a>
+    <a href="catalogo.html" class="on" aria-current="page">Catálogo</a>
+  </div>
+</nav>
+
+<header class="cat-hero">
+  <div class="in">
+    <p class="eb">Framingham Pharma · creadoras de contenido</p>
+    <h1>Elegí tus productos: tenés hasta <b id="tope-h"></b></h1>
+    <p>Te invitamos a <b>Farmaland</b> a elegir productos de Framingham por hasta <span id="tope-p"></span>. Probalos y contá en un video qué te pasó con cada uno.</p>
+    <div class="steps">
+      <div class="step"><b>1</b>Elegí productos hasta <span class="tope-s"></span>.</div>
+      <div class="step"><b>2</b>Vení a Farmaland a buscarlos y filmar, o te los mandamos a tu casa.</div>
+      <div class="step"><b>3</b>Grabá tu video con lo de «Qué contar».</div>
+      <div class="step"><b>4</b>Etiquetá a la marca y mandanos el link.</div>
+    </div>
+    <a class="pdf-link" href="catalogo.pdf" target="_blank" rel="noopener">Descargar en PDF</a>
+  </div>
+</header>
+
+<main class="cat">
+  <section>
+    <h2 class="sec-t">Lo más elegido</h2>
+    <div class="combo" id="combo"></div>
+  </section>
+  <div id="bloques" style="display:grid;gap:26px"></div>
+  <section>
+    <h2 class="sec-t">Cómo hacer el video</h2>
+    <div class="reglas">
+      <div class="regla si"><h3>Sí</h3><ul>
+        <li>Contá tu experiencia real, con tus palabras. No alcanza con mostrar la caja: explicá qué hace el producto.</li>
+        <li>Decí «me ayuda a…» o «ayuda a…», como dice la caja.</li>
+        <li>Mostrá cómo se toma y la caja con el nombre bien visible.</li>
+        <li>Decí que se consigue en farmacias y en Farmaland.</li>
+        <li>Etiquetá a la marca y marcá la publicación como colaboración.</li>
+      </ul></div>
+      <div class="regla no"><h3>No</h3><ul>
+        <li>«Cura», «trata», «adelgaza», «bajé X kilos en X días».</li>
+        <li>Decir que reemplaza un medicamento o un tratamiento.</li>
+        <li>Recomendarlo en embarazo, lactancia o a chicos sin decir «consultá con tu médico».</li>
+        <li>Inventar datos o dosis. Si tenés una duda, preguntanos.</li>
+        <li>Mostrar productos de otras marcas en el mismo video.</li>
+      </ul></div>
+    </div>
+    <p class="nota" id="nota"></p>
+  </section>
+</main>
+
+<div class="bar-tot" id="bar" role="status" aria-live="polite">
+  <div class="in">
+    <span class="t" id="bar-t"></span>
+    <div class="meter"><i id="bar-m"></i></div>
+    <span class="left" id="bar-l"></span>
+    <button id="bar-reset" type="button">Borrar</button>
+  </div>
+</div>
+
+<script>
+(function () {
+  var D = window.DATOS || {}, C = window.CATALOGO;
+  var $ = function (id) { return document.getElementById(id); };
+  var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); };
+  var plata = function (n) { return "$" + Math.round(n).toLocaleString("es-AR"); };
+  if (D.colores && D.colores.marca) document.documentElement.style.setProperty("--marca", D.colores.marca);
+  $("nav-marca").textContent = D.cliente || "";
+  $("tope-h").textContent = plata(C.tope); $("tope-p").textContent = plata(C.tope);
+  [].forEach.call(document.querySelectorAll(".tope-s"), function (e) { e.textContent = plata(C.tope); });
+  $("nota").textContent = "Precios de " + C.lugar + " al " + C.preciosAl + ", con el descuento de ese día. Pueden cambiar.";
+
+  var P = {}; C.productos.forEach(function (p) { P[p.id] = p; });
+  var foto = function (id) { return "catalogo/fotos/" + id + ".jpg"; };
+
+  // Combo más elegido
+  var fav = C.masElegidos.map(function (id) { return P[id]; }).filter(Boolean);
+  var ft = fav.reduce(function (s, p) { return s + p.precio; }, 0);
+  $("combo").innerHTML = '<div class="ph">' + fav.map(function (p) { return '<img src="' + foto(p.id) + '" alt="' + esc(p.nombre) + '">'; }).join("") +
+    '</div><div><h3>' + fav.map(function (p) { return esc(p.nombre); }).join(" + ") + '</h3><p>Proteína, creatina y Goodskin: lo que más eligen las creadoras.</p></div>' +
+    '<div class="tot">' + plata(ft) + '<small>Te quedan ' + plata(C.tope - ft) + ' para sumar más</small></div>';
+
+  // Productos por categoría
+  var elegidos = {};
+  try { elegidos = JSON.parse(localStorage.getItem("cat-elegidos")) || {}; } catch (e) {}
+  $("bloques").innerHTML = C.categorias.map(function (cat) {
+    var L = C.productos.filter(function (p) { return p.cat === cat; });
+    if (!L.length) return "";
+    return '<section class="cat-block"><h2 class="sec-t">' + esc(cat) + '</h2><div class="grid">' + L.map(function (p) {
+      return '<article class="p' + (elegidos[p.id] ? " sel" : "") + '" data-id="' + p.id + '">' +
+        (C.masElegidos.indexOf(p.id) >= 0 ? '<span class="fav">Más elegido</span>' : "") +
+        (p.profesional ? '<span class="fav pro">Con aval profesional</span>' : "") +
+        '<div class="p-img"><img src="' + foto(p.id) + '" alt="' + esc(p.nombre) + '" loading="lazy"></div>' +
+        '<div class="p-body"><span class="p-cat">' + esc(p.cat) + '</span><div class="p-top"><span class="p-name">' + esc(p.nombre) + '</span><span class="p-price">' + plata(p.precio) + '</span></div>' +
+        '<div class="p-pres">' + esc(p.presentacion) + '</div>' +
+        '<div class="p-q">Qué contar en tu video</div><ul>' + p.contar.map(function (c) { return "<li>" + esc(c) + "</li>"; }).join("") + "</ul>" +
+        '<div class="pick"><button type="button" aria-pressed="' + (elegidos[p.id] ? "true" : "false") + '">' + (elegidos[p.id] ? "Elegido ✓" : "Elegir") + "</button></div></div></article>";
+    }).join("") + "</div></section>";
+  }).join("");
+
+  function total() {
+    var t = 0; for (var id in elegidos) if (elegidos[id] && P[id]) t += P[id].precio;
+    var over = t > C.tope;
+    $("bar").classList.toggle("over", over);
+    $("bar-t").textContent = "Elegiste " + plata(t) + " de " + plata(C.tope);
+    $("bar-m").style.width = Math.min(100, t * 100 / C.tope) + "%";
+    $("bar-l").textContent = over ? "Te pasaste " + plata(t - C.tope) : "Te quedan " + plata(C.tope - t);
+    try { localStorage.setItem("cat-elegidos", JSON.stringify(elegidos)); } catch (e) {}
+  }
+  $("bloques").addEventListener("click", function (e) {
+    var b = e.target.closest(".pick button"); if (!b) return;
+    var card = b.closest(".p"), id = card.getAttribute("data-id");
+    elegidos[id] = !elegidos[id];
+    card.classList.toggle("sel", !!elegidos[id]);
+    b.textContent = elegidos[id] ? "Elegido ✓" : "Elegir";
+    b.setAttribute("aria-pressed", elegidos[id] ? "true" : "false");
+    total();
+  });
+  $("bar-reset").addEventListener("click", function () {
+    elegidos = {};
+    [].forEach.call(document.querySelectorAll(".p"), function (c) { c.classList.remove("sel"); var b = c.querySelector(".pick button"); b.textContent = "Elegir"; b.setAttribute("aria-pressed", "false"); });
+    total();
+  });
+  total();
+})();
+</script>
+</body>
+</html>
